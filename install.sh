@@ -14,6 +14,16 @@ snap install starship --classic --edge
   tar zxvf "${KREW}.tar.gz" &&
   ./"${KREW}" install krew
 )
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+KREW_PLUGINS="access-matrix allctx cert-manager creyaml ctx deprecations df-pv eksporter exec-cronjob grep konfig ns rabbitmq split-yaml starboard"
+KREW_PLUGINS="${KREW_PLUGINS} support-bundle tree unused-volumes  view-cert view-serviceaccount-kubeconfig  view-secret  who-can whoami rolesum  resource-versions"
+KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio virt example"
+
+for plugin in ${KREW_PLUGINS} 
+do
+	kubectl krew install $plugin
+done
 mkdir $HOME/.config
 dir_name=$(dirname "$0")
 cp $dir_name/.config/starship $HOME/.config
