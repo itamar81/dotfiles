@@ -1,9 +1,8 @@
 #! /bin/bash
 snap_apps="go kubectl kubectx terraform vault yq helm starship"
-sudo apt install git
 for app in $snap_apps;
 do
-    echo "sudo snap install $app --classic"
+    snap install $app --classic
 done
 mkdir $HOME/.config
 dir_name=$(dirname "$0")
