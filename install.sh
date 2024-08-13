@@ -28,7 +28,7 @@ done
 
 wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
 tar -xvf openshift-client-linux.tar.gz
-cp oc /usr/local/bin/
+sudo cp oc /usr/local/bin/
 
 export PATH="${KREW_ROOT:-/.krew}/bin:$PATH"
 dir_name=$(dirname "$0")
@@ -36,12 +36,12 @@ dir_name=$(dirname "$0")
 home=/home/itamar/
 mkdir $home
 
-cp $dir_name/.bashrc  $home | true
-mkdir $home/.config
+sudo cp $dir_name/.bashrc  $home | true
+sudo mkdir $home/.config
 dir_name=$(dirname "$0")
-cp $dir_name/.config/starship.toml $home/.config
+sudo cp $dir_name/.config/starship.toml $home/.config
 
 cd ..
 
 git clone https://github.com/jonmosco/kube-ps1
-cp kube-ps1/kube-ps1.sh /usr/local/etc/
+sudo cp kube-ps1/kube-ps1.sh /usr/local/etc/
