@@ -5,27 +5,29 @@ do
     snap install $app --classic
 done
 snap install starship --classic --edge
+KREW_PLUGINS="access-matrix allctx cert-manager creyaml ctx deprecations df-pv eksporter exec-cronjob grep konfig ns rabbitmq split-yaml starboard"
+KREW_PLUGINS="${KREW_PLUGINS} support-bundle tree unused-volumes  view-cert view-serviceaccount-kubeconfig  view-secret  who-can whoami rolesum  resource-versions"
+KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio virt example"
 
-  
+(
 OS="$(uname | tr '[:upper:]' '[:lower:]')"
 ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" 
 KREW="krew-${OS}_${ARCH}" 
 curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz"
 tar zxvf "${KREW}.tar.gz"
-./"${KREW}" install krew
-
-wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
-tar -xvf openshift-client-linux.tar.gz
-cp oc /usr/local/bin/
-export PATH="${KREW_ROOT:-/.krew}/bin:$PATH"
-KREW_PLUGINS="access-matrix allctx cert-manager creyaml ctx deprecations df-pv eksporter exec-cronjob grep konfig ns rabbitmq split-yaml starboard"
-KREW_PLUGINS="${KREW_PLUGINS} support-bundle tree unused-volumes  view-cert view-serviceaccount-kubeconfig  view-secret  who-can whoami rolesum  resource-versions"
-KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio virt example"
-dir_name=$(dirname "$0")
+sudo -H -u itamar bash -c "./${KREW} install krew"
 for plugin in ${KREW_PLUGINS} 
 do
 	kubectl krew install $plugin
 done
+)
+wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
+tar -xvf openshift-client-linux.tar.gz
+cp oc /usr/local/bin/
+
+export PATH="${KREW_ROOT:-/.krew}/bin:$PATH"
+dir_name=$(dirname "$0")
+
 home=/home/itamar/
 mkdir $home
 
