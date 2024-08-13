@@ -7,7 +7,7 @@ for app in $snap_apps;
 do
     sudo snap install $app --classic
 done
-sudo snap install starship --classic --edge
+# sudo snap install starship --classic --edge
 KREW_PLUGINS="access-matrix allctx cert-manager creyaml ctx deprecations df-pv eksporter exec-cronjob grep konfig ns rabbitmq split-yaml starboard"
 KREW_PLUGINS="${KREW_PLUGINS} support-bundle tree unused-volumes  view-cert view-serviceaccount-kubeconfig  view-secret  who-can whoami rolesum  resource-versions"
 KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio virt example"
@@ -21,10 +21,10 @@ KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio vi
   tar zxvf "${KREW}.tar.gz" &&
   ./"${KREW}" install krew
 )
-# for plugin in ${KREW_PLUGINS} 
-# do
-# 	kubectl krew install $plugin
-# done
+for plugin in ${KREW_PLUGINS} 
+do
+	kubectl krew install $plugin
+done
 
 wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
 tar -xvf openshift-client-linux.tar.gz
@@ -33,13 +33,11 @@ sudo cp oc /usr/local/bin/
 export PATH="${KREW_ROOT:-/.krew}/bin:$PATH"
 dir_name=$(dirname "$0")
 
-home=/home/itamar/
-mkdir $home
 
-sudo cp $dir_name/.bashrc  $home | true
-sudo mkdir $home/.config
+sudo cp $dir_name/.bashrc  $HOME | true
+sudo mkdir $HOME/.config
 dir_name=$(dirname "$0")
-sudo cp $dir_name/.config/starship.toml $home/.config
+sudo cp $dir_name/.config/starship.toml $HOME/.config
 
 cd ..
 
