@@ -1,7 +1,7 @@
 #! /bin/bash
 
 echo MY HOME DIR:$HOME
-sleep 10
+
 snap_apps="go kubectl kubectx terraform vault yq helm"
 for app in $snap_apps;
 do
