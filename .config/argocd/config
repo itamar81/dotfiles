@@ -1,0 +1,19 @@
+contexts:
+- name: openshift-gitops-server-openshift-gitops.apps.pdx01osvhub02.nvidia.com
+  server: openshift-gitops-server-openshift-gitops.apps.pdx01osvhub02.nvidia.com
+  user: openshift-gitops-server-openshift-gitops.apps.pdx01osvhub02.nvidia.com
+- name: kubernetes
+  server: kubernetes
+  user: kubernetes
+current-context: kubernetes
+servers:
+- grpc-web-root-path: ""
+  insecure: true
+  server: openshift-gitops-server-openshift-gitops.apps.pdx01osvhub02.nvidia.com
+- core: true
+  grpc-web-root-path: ""
+  server: kubernetes
+users:
+- auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmdvY2QiLCJzdWIiOiJhZG1pbjpsb2dpbiIsImV4cCI6MTcyMTAyMzUyMSwibmJmIjoxNzIwOTM3MTIxLCJpYXQiOjE3MjA5MzcxMjEsImp0aSI6IjJmZGM1NTkzLTY1NzAtNGJlNi1iYjMwLThhNDcyYjBiMjBmMCJ9.a1ncQzOcOSgrLTAqsdhjg__QWBYbSLdBxZg_udtT1Bw
+  name: openshift-gitops-server-openshift-gitops.apps.pdx01osvhub02.nvidia.com
+- name: kubernetes
