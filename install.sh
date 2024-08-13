@@ -1,26 +1,31 @@
 #! /bin/bash
+
+echo MY HOME DIR:$HOME
+sleep 10
 snap_apps="go kubectl kubectx terraform vault yq helm"
 for app in $snap_apps;
 do
-    snap install $app --classic
+    sudo snap install $app --classic
 done
-snap install starship --classic --edge
+sudo snap install starship --classic --edge
 KREW_PLUGINS="access-matrix allctx cert-manager creyaml ctx deprecations df-pv eksporter exec-cronjob grep konfig ns rabbitmq split-yaml starboard"
 KREW_PLUGINS="${KREW_PLUGINS} support-bundle tree unused-volumes  view-cert view-serviceaccount-kubeconfig  view-secret  who-can whoami rolesum  resource-versions"
 KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio virt example"
 
 (
-OS="$(uname | tr '[:upper:]' '[:lower:]')"
-ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" 
-KREW="krew-${OS}_${ARCH}" 
-curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz"
-tar zxvf "${KREW}.tar.gz"
-sudo -H -u itamar bash -c "./${KREW} install krew"
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
+)
 for plugin in ${KREW_PLUGINS} 
 do
-	kubectl krew install $plugin
+	sudo -H -u itamar bash -c "kubectl krew install $plugin"
 done
-)
+
 wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
 tar -xvf openshift-client-linux.tar.gz
 cp oc /usr/local/bin/
