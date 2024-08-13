@@ -25,6 +25,7 @@ do
 	kubectl krew install $plugin
 done
 cp $dir_name/.bashrc  /etc/bash.bashrc
+cp $dir_name/.bashrc  /home/itamar/ | true
 mkdir $HOME/.config
 dir_name=$(dirname "$0")
 cp $dir_name/.config/starship $HOME/.config
