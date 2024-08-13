@@ -18,13 +18,13 @@ KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio vi
   ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
   KREW="krew-${OS}_${ARCH}" &&
   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
-  sudo -H -u itamar bash -c "tar zxvf ${KREW}.tar.gz" &&
-  sudo -H -u itamar bash -c "./${KREW} install krew"
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
 )
-for plugin in ${KREW_PLUGINS} 
-do
-	sudo -H -u itamar bash -c "kubectl krew install $plugin"
-done
+# for plugin in ${KREW_PLUGINS} 
+# do
+# 	kubectl krew install $plugin
+# done
 
 wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
 tar -xvf openshift-client-linux.tar.gz
@@ -34,7 +34,7 @@ export PATH="${KREW_ROOT:-/.krew}/bin:$PATH"
 dir_name=$(dirname "$0")
 
 home=/home/itamar/
-# mkdir $home
+mkdir $home
 
 sudo cp $dir_name/.bashrc  $home | true
 sudo mkdir $home/.config
