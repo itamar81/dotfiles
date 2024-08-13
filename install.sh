@@ -24,6 +24,7 @@ for plugin in ${KREW_PLUGINS}
 do
 	kubectl krew install $plugin
 done
+cp $dir_name/.bashrc  /etc/bash.bashrc
 mkdir $HOME/.config
 dir_name=$(dirname "$0")
 cp $dir_name/.config/starship $HOME/.config
