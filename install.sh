@@ -24,12 +24,13 @@ for plugin in ${KREW_PLUGINS}
 do
 	kubectl krew install $plugin
 done
+home=/home/itamar/
+mkdir $home
 
-cp $dir_name/.bashrc  /etc/bash.bashrc
-cp $dir_name/.bashrc  /home/itamar/ | true
-mkdir $HOME/.config
+cp $dir_name/.bashrc  $home | true
+mkdir $home/.config
 dir_name=$(dirname "$0")
-cp $dir_name/.config/starship.toml $HOME/.config
+cp $dir_name/.config/starship.toml $home/.config
 
 cd ..
 
