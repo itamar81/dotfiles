@@ -6,7 +6,8 @@ do
     echo "sudo snap install $app --classic"
 done
 mkdir $HOME/.config
-cp dotfiles/.config/starship $HOME/.config
+dir_name=$(dirname "$0")
+cp $dir_name/.config/starship $HOME/.config
 
 cd ..
 
