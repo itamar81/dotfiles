@@ -19,16 +19,17 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 KREW_PLUGINS="access-matrix allctx cert-manager creyaml ctx deprecations df-pv eksporter exec-cronjob grep konfig ns rabbitmq split-yaml starboard"
 KREW_PLUGINS="${KREW_PLUGINS} support-bundle tree unused-volumes  view-cert view-serviceaccount-kubeconfig  view-secret  who-can whoami rolesum  resource-versions"
 KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio virt example"
-
+dir_name=$(dirname "$0")
 for plugin in ${KREW_PLUGINS} 
 do
 	kubectl krew install $plugin
 done
+
 cp $dir_name/.bashrc  /etc/bash.bashrc
 cp $dir_name/.bashrc  /home/itamar/ | true
 mkdir $HOME/.config
 dir_name=$(dirname "$0")
-cp $dir_name/.config/starship $HOME/.config
+cp $dir_name/.config/starship.toml $HOME/.config
 
 cd ..
 
