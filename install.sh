@@ -19,7 +19,7 @@ KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio vi
   KREW="krew-${OS}_${ARCH}" &&
   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
   tar zxvf "${KREW}.tar.gz" &&
-  ./"${KREW}" install krew
+  sudo -H -u itamar bash -c "./${KREW} install krew"
 )
 for plugin in ${KREW_PLUGINS} 
 do
