@@ -5,3 +5,4 @@ RCS
 ^/README.*
 
 Makefile
+install.sh
