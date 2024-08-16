@@ -1,7 +1,6 @@
 #! /bin/bash
 
-echo MY HOME DIR:$HOME
-
+# echo MY HOME DIR:$HOME
 snap_apps="go kubectl kubectx terraform vault yq helm"
 for app in $snap_apps;
 do
@@ -31,9 +30,9 @@ curl -sS https://starship.rs/install.sh | sh
 wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
 tar -xvf openshift-client-linux.tar.gz
 cp oc /usr/local/bin/
-cp $dir_name/.bashrc  $HOME | true
-mkdir $HOME/.config
-cp $dir_name/.config/starship.toml $HOME/.config
+# cp $dir_name/.bashrc  $HOME | true
+# mkdir $HOME/.config
+# cp $dir_name/.config/starship.toml $HOME/.config
 
 cd ..
 
