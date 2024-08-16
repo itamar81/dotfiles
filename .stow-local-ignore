@@ -1,0 +1,7 @@
+RCS
+.+,v
+\.git
+\.gitignore
+^/README.*
+
+Makefile
