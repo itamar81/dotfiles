@@ -1,7 +1,18 @@
 #! /bin/bash
-
+apt update
+apt install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release \
+    software-properties-common \
+    git \
+    wget \
+    jq \
+    stow
 # echo MY HOME DIR:$HOME
-snap_apps="go kubectl kubectx terraform vault yq helm"
+snap_apps="go kubectl kubectx terraform vault yq helm stow"
 for app in $snap_apps;
 do
     snap install $app --classic
