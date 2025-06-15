@@ -10,7 +10,8 @@ apt install -y \
     git \
     wget \
     jq \
-    stow
+    stow\
+    postgresql-client
 # echo MY HOME DIR:$HOME
 snap_apps="go kubectl kubectx terraform vault yq helm stow"
 for app in $snap_apps;
@@ -20,7 +21,7 @@ done
 # sudo snap install starship --classic --edge
 KREW_PLUGINS="access-matrix allctx cert-manager creyaml ctx deprecations df-pv eksporter exec-cronjob grep konfig ns rabbitmq split-yaml starboard"
 KREW_PLUGINS="${KREW_PLUGINS} support-bundle tree unused-volumes  view-cert view-serviceaccount-kubeconfig  view-secret  who-can whoami rolesum  resource-versions"
-KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio virt example"
+KREW_PLUGINS="${KREW_PLUGINS} outdated node-shell neat get-all mc ipick minio virt example cnpg"
 stow .
 (
   set -x; cd "$(mktemp -d)" &&
