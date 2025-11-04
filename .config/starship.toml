@@ -1,35 +1,65 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# Inserts a blank line between shell prompts
+# ============================
+# GENERAL SETTINGS
+# ============================
 add_newline = true
 
-# Replace the '❯' symbol in the prompt with '➜'
-[character] # The name of the module we are configuring is 'character'
-success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+# ============================
+# PROMPT CHARACTER
+# ============================
+[character]
+success_symbol = '[➜](bold green)'
+
+# ============================
+# COMMAND DURATION
+# ============================
 [cmd_duration]
 min_time = 100
 format = 'took [$duration](yellow)'
-#style = "yellow"
-[aws]
-disabled = true
 
+# ============================
+# DIRECTORY
+# ============================
 [directory]
 truncate_to_repo = true
-# Disable the package module, hiding it from the prompt completely
-[package]
-disabled = true
+
+# ============================
+# GIT BRANCH
+# ============================
 [git_branch]
-ignore_branches=['master','main']
+ignore_branches = ['master', 'main']
 
-[sudo]
-disabled= false
+# ============================
+# KUBERNETES
+# ============================
 [kubernetes]
-style = "bold red"
 disabled = false
-format = '[$symbol $context( \($namespace\))]($style) in ' 
-[hostname]
-disabled = true
+style = "bold red"
+# Show the symbol, the aliased context, and the active namespace
+format = '[$symbol $context( \($namespace\))]($style) '
 
-[username]
-disabled = true
+#
+# ALIAS RULES (These are correct)
+#
+
+# Rule 1
+[[kubernetes.contexts]]
+context_alias = "$2/($3)"
+context_pattern = '^([^/]+)/api-(.*)-nvidia-com:[^/]+/([^@]+)@nvidia\.com ( \([^)]+\))$'
+
+# Rule 2
+[[kubernetes.contexts]]
+context_alias = "$2/($3)"
+context_pattern = '^([^/]+)/api-(.*)-nvidia-com:[^/]+/([^@]+)@nvidia\.com$'
+
+# Rule 3
+[[kubernetes.contexts]]
+context_alias = "$2"
+context_pattern = '^([^/]+)/api-(.*)-nvidia-com.*$'
+
+# Rule 4
+[[kubernetes.contexts]]
+context_alias = "$1"
+context_pattern = '.*api-(.*)-nvidia-com.*$'
