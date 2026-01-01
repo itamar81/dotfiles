@@ -1,58 +1,33 @@
-# === BASIC OPTIONS ===
-export EDITOR=nano
-unsetopt BEEP                   # Disable terminal bell
+# --- 1. Styles (MUST BE AT THE TOP) ---
+# These must be defined before Oh My Zsh runs 'compinit'
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+autoload -U compinit
+compinit -i
 setopt HIST_IGNORE_ALL_DUPS     # Don't store duplicates in history
-setopt SHARE_HISTORY            # Share history between sessions
-setopt INC_APPEND_HISTORY       # Append to history immediately
-setopt AUTO_CD                  # Allows `cd folder` just by typing folder name
-
-# === PATH SETUP ===
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# === PROMPT ===
-PROMPT='%F{green}%n@%m%f %F{blue}%~%f %# '
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=red"
-# === ALIASES ===
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias k='kubectl'
-alias kctx='kubectx'
-alias kns='kubens'
-alias grep='grep --color=auto'
-
-# === GIT SHORTCUT ===
-gitp() {
-  git add .
-  COMMIT_MSG="fix"
-  if [ "$#" -gt 0 ]; then
-    COMMIT_MSG="$@"
-  fi
-  git commit -m "$COMMIT_MSG"
-  git push
-}
-
-# === FUNCTIONS ===
-mkcd() {
-  mkdir -p "$1" && cd "$1"
-}
-
-# === PLUGIN: zsh-autosuggestions ===
-# Install it: git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# === PLUGIN: zsh-syntax-highlighting ===
-# Install it: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
-# Always load this LAST
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# === STARSHIP PROMPT ===
-# Install it: https://starship.rs
+plugins=(git zsh-autosuggestions)
 eval "$(starship init zsh)"
-export PATH=$PATH:/snap/bin
-# === COMPLETIONS (cached to avoid slowness) ===
+# eval "$(octx init zsh)"
+
+# --- 2. Oh My Zsh Path ---
+export ZSH="$HOME/.oh-my-zsh"
+
+# --- 3. Disable OMZ Theme ---
+ZSH_THEME=""
+alias -g C=' | pbcopy'
+alias -g JQ=' | jq'
+alias -g YQ=' | yq'
+# --- 4. Plugins ---
+# Added 'kubectl' so you get proper Kubernetes completions
+plugins=(
+    git
+    kubectl
+    zsh-autosuggestions
+#    zsh-history-substring-search
+#     zsh-autocomplete
+    zsh-syntax-highlighting    
+)
 ZSH_COMPLETIONS="$HOME/.zsh/completions"
-mkdir -p "$ZSH_COMPLETIONS"
 
 for tool in kubectl helm oc yq; do
   f="$ZSH_COMPLETIONS/${tool}_completion.zsh"
@@ -63,4 +38,35 @@ for tool in kubectl helm oc yq; do
     source "$f"
   fi
 done
+# --- 5. Load Oh My Zsh ---
+source $ZSH/oh-my-zsh.sh
+
+# --- 6. Starship (Bottom) ---
+eval "$(starship init zsh)"
+gitp() {
+  git add .
+  COMMIT_MSG="fix"
+  if [ "$#" -gt 0 ]; then
+    COMMIT_MSG="$@"
+  fi
+  git commit -m "$COMMIT_MSG"
+  git push
+}
+eval "$(octx init zsh)"
+#source $HOMEBREW_PREFIX/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+ZSH_COMPLETIONS="$HOME/.zsh/completions"
+mkdir -p "$ZSH_COMPLETIONS"
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias ls='ls --color=auto'
+alias k='kubectl'
+alias kctx='kubectx'
+alias kns='kubens'
+alias watch='watch '
+alias grep='grep --color=auto'
+alias tridentctl='tridentctl -n trident '
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+export KIND_EXPERIMENTAL_PROVIDER=podman
