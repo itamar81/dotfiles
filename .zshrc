@@ -14,6 +14,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 # --- 3. Disable OMZ Theme ---
 ZSH_THEME=""
+alias VENV='python3 -m venv venv ; source venv/bin/activate'
 alias -g C=' | pbcopy'
 alias -g JQ=' | jq'
 alias -g YQ=' | yq'
