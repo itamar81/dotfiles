@@ -12,6 +12,7 @@
 #    jq \
 #    stow\
 #    postgresql-client
+#    coreutils
 # echo MY HOME DIR:$HOME
 #snap_apps="go kubectl kubectx terraform vault yq helm stow"
 # for app in $snap_apps;
