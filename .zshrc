@@ -14,7 +14,17 @@ export ZSH="$HOME/.oh-my-zsh"
 
 # --- 3. Disable OMZ Theme ---
 ZSH_THEME=""
-alias VENV='python3 -m venv venv ; source venv/bin/activate'
+
+VENV() {
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+}
+CONSOLE() {
+  u=$(oc get route -n openshift-console  console -o jsonpath='{.spec.host}')
+  open -a Firefox http://$u
+}
+#alias CONSOLE="oc get route -n openshift-console  console -o jsonpath='{.spec.host}' |pbcopy"
 alias -g C=' | pbcopy'
 alias -g JQ=' | jq'
 alias -g YQ=' | yq'
@@ -53,9 +63,26 @@ gitp() {
   git commit -m "$COMMIT_MSG"
   git push
 }
+_octx_tmux_rename() {
+    # Match if the command starts with "octx "
+    if [[ "$1" =~ ^octx[[:space:]]+(.*) ]]; then
+        # Extract the cluster name (everything after "octx ")
+        local cluster_name="${match[1]}"
+        
+        # Rename the window after a tiny delay so it happens after octx runs
+        if [ -n "$TMUX" ]; then
+            (sleep 0.1; tmux rename-window "$cluster_name") &!
+        fi
+    fi
+}
+add-zsh-hook preexec _octx_tmux_rename
+APPROVE() {
+kubectl get installplans.operators.coreos.com -A -o jsonpath='{range .items[?(@.spec.approved==false)]}{.metadata.namespace}{" "}{.metadata.name}{"\n"}{end}' | while read -r ns name; do 
+  kubectl patch installplan "$name" -n "$ns" --type merge -p '{"spec":{"approved":true}}'
+done
+}
 eval "$(octx init zsh)"
 #source $HOMEBREW_PREFIX/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-
 ZSH_COMPLETIONS="$HOME/.zsh/completions"
 mkdir -p "$ZSH_COMPLETIONS"
 alias ll='ls -alF'
@@ -68,6 +95,9 @@ alias kns='kubens'
 alias watch='watch '
 alias grep='grep --color=auto'
 alias tridentctl='tridentctl -n trident '
+alias velero='velero -n openshift-gitops '
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 export KIND_EXPERIMENTAL_PROVIDER=podman
+
+export PATH="$HOME/.local/bin:$PATH"
